@@ -3,11 +3,24 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker login -u justinpjose -p H(,67Ud9VM^Qxk}d
+      - run: docker login -u justinpjose -p VynHk5jmXz7wHsRL
       - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true cygnetops/react-test npm test
+      - run: zip -r deploy.zip . -x '*.git*'
+
+      - name: Deploy to EB
+      - uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: AKIARH7HMQIVHIZSTHFV
+          aws_secret_key: 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
+          application_name: docker
+          environment_name: Docker-env
+          version_label: 12345
+          region: us-east-1
+          deployment_package: deploy.zip
