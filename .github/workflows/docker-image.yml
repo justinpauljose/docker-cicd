@@ -3,13 +3,11 @@ on:
   push:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
       - uses: actions/checkout@v2
-      - run: docker login -u justinpjose -p VynHk5jmXz7wHsRL
+      - run: docker login -u justinpjose -p H(,67Ud9VM^Qxk}d
       - run: docker build -t cygnetops/react-test -f Dockerfile.dev .
       - run: docker run -e CI=true cygnetops/react-test npm test
